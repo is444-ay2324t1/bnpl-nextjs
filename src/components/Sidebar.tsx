@@ -5,9 +5,8 @@ import { cn } from "@/utils/cn";
 import {
   CircleDollarSign,
   Gauge,
-  PanelLeftOpen,
-  PanelLeftClose,
-  Star,
+  ChevronRight,
+  ChevronLeft,
 } from "lucide-react";
 import { MenuButton } from "./Menu";
 import SidebarItem from "./SidebarItem";
@@ -37,16 +36,16 @@ const Sidebar = () => {
           open ? "w-60" : "w-fit"
         } relative hidden content-between border-r border-border bg-muted p-2 pb-8 duration-300 sm:grid`}
       >
-        <PanelLeftOpen
+        <ChevronRight
           className={cn(
-            "absolute -right-11 top-3 h-auto w-fit cursor-pointer rounded-md border p-1.5 text-primary hover:bg-muted",
+            "absolute -right-11 top-3 h-auto w-fit cursor-pointer rounded-3xl border p-1.5 text-primary hover:bg-muted",
             { hidden: open }
           )}
           onClick={() => setOpen(!open)}
         />
-        <PanelLeftClose
+        <ChevronLeft
           className={cn(
-            "absolute -right-11 top-3 h-auto w-fit cursor-pointer rounded-md border p-1.5 text-primary hover:bg-muted",
+            "absolute -right-11 top-3 h-auto w-fit cursor-pointer rounded-3xl border p-1.5 text-primary hover:bg-muted",
             { hidden: !open }
           )}
           onClick={() => setOpen(!open)}
@@ -72,7 +71,7 @@ const Sidebar = () => {
             <Avatar>
               <AvatarImage src="/avatars/01.png" />
               <AvatarFallback className="border-2 bg-primary-foreground">
-                OM
+                A
               </AvatarFallback>
             </Avatar>
             {open ? (
@@ -80,9 +79,7 @@ const Sidebar = () => {
                 <p className="text-sm font-medium leading-none">
                   Alan Megargel
                 </p>
-                <p className="text-sm text-muted-foreground">
-                  alanmegargel@smu.edu.sg
-                </p>
+                <p className="text-sm text-muted-foreground">alan@smu.edu.sg</p>
               </div>
             ) : null}
           </div>
