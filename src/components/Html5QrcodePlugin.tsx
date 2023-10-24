@@ -26,7 +26,7 @@ const Html5QrcodePlugin = ({
     // when component mounts
     let config: Html5QrcodeScannerConfig = {
       fps: fps ?? 10,
-      qrbox: qrbox ?? 250,
+      qrbox: qrbox ?? 600,
       aspectRatio: aspectRatio ?? 1.0,
       disableFlip: disableFlip === true,
     };
