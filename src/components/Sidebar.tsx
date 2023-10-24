@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 import { cn } from "@/utils/cn";
 import {
-  CandlestickChart,
+  CircleDollarSign,
   Gauge,
   PanelLeftOpen,
   PanelLeftClose,
@@ -21,14 +21,9 @@ export const sidebarLinks: SidebarItemType[] = [
     icon: <Gauge />,
   },
   {
-    title: "Portfolios",
-    href: "/portfolios",
-    icon: <CandlestickChart />,
-  },
-  {
-    title: "Watchlist",
-    href: "/watchlist",
-    icon: <Star />,
+    title: "Pay",
+    href: "/Pay",
+    icon: <CircleDollarSign />,
   },
 ];
 
@@ -82,9 +77,11 @@ const Sidebar = () => {
             </Avatar>
             {open ? (
               <div className="text-left">
-                <p className="text-sm font-medium leading-none">John Smith</p>
+                <p className="text-sm font-medium leading-none">
+                  Alan Megargel
+                </p>
                 <p className="text-sm text-muted-foreground">
-                  name@example.com
+                  alanmegargel@smu.edu.sg
                 </p>
               </div>
             ) : null}
