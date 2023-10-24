@@ -21,7 +21,7 @@ export const sidebarLinks: SidebarItemType[] = [
   },
   {
     title: "Pay",
-    href: "/Pay",
+    href: "/pay",
     icon: <CircleDollarSign />,
   },
 ];
