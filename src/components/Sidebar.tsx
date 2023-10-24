@@ -16,7 +16,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
 export const sidebarLinks: SidebarItemType[] = [
   {
     title: "Dashboard",
-    href: "/dashboard",
+    href: "/",
     icon: <Gauge />,
   },
   {
