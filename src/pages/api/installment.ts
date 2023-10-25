@@ -1,17 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import type {
-  NewTransaction,
-  User,
-  Order,
-  Payment,
-} from "../../types/index.js";
-import clientPromise from "../../lib/db.js";
-import { billPayment } from "../../lib/service.js";
-
-type Data = {
-  name: string;
-};
+import type { NewTransaction, Order, Payment } from "../../types/index";
+import clientPromise from "../../lib/db";
+import { billPayment } from "../../lib/service";
 
 function getInstallmentAmounts(amount: number, numberOfInstallments: number) {
   const installmentAmounts: number[] = [];
@@ -32,7 +23,7 @@ function addMonths(date: Date, months: number) {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
   if (req.method == "POST") {
     // Assuming customer acc already has enuf balance for the first txn
@@ -88,7 +79,7 @@ export default async function handler(
           .insertOne(newPayment);
         firstTransactionId = insertedId.toString();
       }
-      res.status(200).json({ name: "hiihi" });
+      res.status(200).json(response);
     } catch (err) {
       res.status(400).json({ error: err.message });
     }

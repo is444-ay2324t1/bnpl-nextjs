@@ -6,7 +6,7 @@ interface TxHeader {
   OTP: string;
 }
 
-interface BillPayment extends TxHeader {
+interface BillPaymentParams extends TxHeader {
   accountFrom: string;
   accountTo: string;
   transactionAmount: number;
@@ -23,7 +23,7 @@ export const billPayment = async ({
   transactionAmount,
   transactionReferenceNumber,
   narrative,
-}: BillPayment) => {
+}: BillPaymentParams) => {
   const headerObj = {
     Header: {
       serviceName: "billPayment",
@@ -51,7 +51,47 @@ export const billPayment = async ({
 
   const data = await res.json();
   let errorText = data.Content.ServiceResponse.ServiceRespHeader.ErrorText;
-  if (errorText != "invocation success") {
+  if (errorText != "invocation successful") {
+    throw new Error(errorText);
+  }
+
+  return data;
+};
+
+interface DepositAccountBalanceParams extends TxHeader {
+  accountID: string;
+}
+
+export const getDepositAccountBalance = async ({
+  userID,
+  PIN,
+  OTP,
+  accountID,
+}: DepositAccountBalanceParams) => {
+  const headerObj = {
+    Header: {
+      serviceName: "getDepositAccountBalance",
+      userID,
+      PIN,
+      OTP,
+    },
+  };
+
+  const contentObj = {
+    Content: {
+      accountID,
+    },
+  };
+
+  const res = await fetch(
+    `${BASE_URL}?Header=${JSON.stringify(headerObj)}&Content=${JSON.stringify(
+      contentObj
+    )}`
+  );
+
+  const data = await res.json();
+  let errorText = data.Content.ServiceResponse.ServiceRespHeader.ErrorText;
+  if (errorText != "invocation successful") {
     throw new Error(errorText);
   }
 
