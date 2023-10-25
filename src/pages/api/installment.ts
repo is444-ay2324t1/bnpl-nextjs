@@ -6,7 +6,8 @@ import type {
   Order,
   Payment,
 } from "../../types/index.js";
-import clientPromise from "../../lib/db";
+import clientPromise from "../../lib/db.js";
+import { billPayment } from "../../lib/service.js";
 
 type Data = {
   name: string;
@@ -60,35 +61,36 @@ export default async function handler(
     const { insertedId: newOrderId } = await db
       .collection("orders")
       .insertOne(order);
-    let firstTransactionId = "";
-    for (let i = 0; i < numberOfInstallments; i++) {
-      const newPayment: Payment = {
-        amount: installmentAmounts[i],
-        amountPaid: i == 0 ? installmentAmounts[i] : 0,
-        dueDate: addMonths(new Date(), i),
-        orderId: newOrderId,
-        userId: userId,
-      };
-      const { insertedId } = await db
-        .collection("payments")
-        .insertOne(newPayment);
-      firstTransactionId = insertedId.toString();
+
+    try {
+      const response = await billPayment({
+        userID: user?.userId,
+        PIN: user?.pin,
+        OTP: "999999",
+        accountFrom: user?.tbankAccountNumber,
+        accountTo: "11157",
+        transactionAmount: installmentAmounts[0],
+        transactionReferenceNumber: newOrderId.toString(),
+        narrative: `Payment 1 of ${numberOfInstallments} for ${merchant} - ${category} ${transactionAmount}`,
+      });
+
+      let firstTransactionId = "";
+      for (let i = 0; i < numberOfInstallments; i++) {
+        const newPayment: Payment = {
+          amount: installmentAmounts[i],
+          amountPaid: i == 0 ? installmentAmounts[i] : 0,
+          dueDate: addMonths(new Date(), i),
+          orderId: newOrderId,
+          userId: userId,
+        };
+        const { insertedId } = await db
+          .collection("payments")
+          .insertOne(newPayment);
+        firstTransactionId = insertedId.toString();
+      }
+      res.status(200).json({ name: "hiihi" });
+    } catch (err) {
+      res.status(400).json({ error: err.message });
     }
-
-    const fetchUrl = `http://tbankonline.com/SMUtBank_API/Gateway?Header={"serviceName":"billPayment","userID":"${
-      user.userId
-    }","PIN":"${user.pin}","OTP":"999999"}&Content={"accountFrom":"${
-      user.tbankAccountNumber
-    }","accountTo":"11157","transactionAmount":"${
-      installmentAmounts[0]
-    }","transactionReferenceNumber":"${newOrderId}","narrative":"${`Payment 1 of ${numberOfInstallments} for ${merchant} - ${category} ${transactionAmount}}`}"}`;
-    const response = await fetch(fetchUrl);
-    const txnStatus = await response.json();
-    // Check if transaction succeeded or failed
-    // let transactionResult =
-    //   txnStatus.Content.ServiceResponse.ServiceRespHeader.ErrorText;
-
-    // const transactionFailedHeader = "insufficient funds";
-    // const transactionSuccessfulHeader = "invocation successful";
   }
 }
