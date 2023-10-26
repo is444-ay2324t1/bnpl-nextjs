@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import { Badge } from "../ui/Badge";
-import { PortfolioModal } from "../PortfolioModal";
-import { formatPercentage, formatUsd } from "@/utils/functions";
-import { TotalCreditChart } from "./TotalCreditChart";
+import { formatUsd } from "@/utils/functions";
 
 export const DashboardHeader = () => {
   const [showBalance, setShowBalance] = useState(true);

@@ -7,9 +7,6 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-import { Button } from "../ui/button";
-import { ChartControls } from "../ChartControls";
-
 const TotalCreditData = [
   { status: "Available", credit: 400 },
   { status: "Order 1", credit: 300 },
