@@ -1,7 +1,9 @@
-import { cn } from "@/utils/cn";
 import Link from "next/link";
 import { NextRouter } from "next/router";
 import React from "react";
+
+import { cn } from "@/utils/cn";
+import { SidebarItemType } from "@/types";
 
 interface SidebarItemProps {
   link: SidebarItemType;

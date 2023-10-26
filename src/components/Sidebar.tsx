@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-
-import { cn } from "@/utils/cn";
 import {
   CircleDollarSign,
   Gauge,
   ChevronRight,
   ChevronLeft,
 } from "lucide-react";
+
+import { cn } from "@/utils/cn";
+import { SidebarItemType } from "@/types";
 import { MenuButton } from "./Menu";
 import SidebarItem from "./SidebarItem";
 import { ProfileDropdownMenu } from "./ProfileDropDownMenu";

@@ -1,5 +1,11 @@
 import { Button } from "./ui/button";
 
+export type ChartControlsProps = {
+  selectedPeriod: string;
+  setSelectedPeriod: (period: string) => void;
+  periods: string[];
+};
+
 export const ChartControls = ({
   selectedPeriod,
   setSelectedPeriod,

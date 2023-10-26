@@ -1,8 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { NewTransaction, Order, Payment } from "../../types/index";
-import clientPromise from "../../lib/db";
-import { billPayment } from "../../lib/service";
+
+import type { NewTransaction, Order, Payment } from "@/types";
+import { billPayment } from "@/lib/service";
+import clientPromise from "@/lib/db";
 
 function getInstallmentAmounts(amount: number, numberOfInstallments: number) {
   const installmentAmounts: number[] = [];
@@ -62,10 +63,9 @@ export default async function handler(
         accountTo: "11157",
         transactionAmount: installmentAmounts[0],
         transactionReferenceNumber: newOrderId.toString(),
-        narrative: `Payment 1 of ${numberOfInstallments} for ${merchant} - ${category} ${transactionAmount}`,
+        narrative: `Payment for installment 1 of ${numberOfInstallments} for ${merchant} - ${category} ${transactionAmount}`,
       });
 
-      let firstTransactionId = "";
       for (let i = 0; i < numberOfInstallments; i++) {
         const newPayment: Payment = {
           amount: installmentAmounts[i],
@@ -74,14 +74,12 @@ export default async function handler(
           orderId: newOrderId,
           userId: userId,
         };
-        const { insertedId } = await db
-          .collection("payments")
-          .insertOne(newPayment);
-        firstTransactionId = insertedId.toString();
+        await db.collection("payments").insertOne(newPayment);
       }
       res.status(200).json(response);
     } catch (err) {
-      res.status(400).json({ error: err.message });
+      const e = err as Error;
+      res.status(400).json({ error: e.message });
     }
   }
 }

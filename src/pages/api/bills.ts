@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import clientPromise from "../../lib/db";
+import { type Sort } from "mongodb";
+
+import clientPromise from "@/lib/db";
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,7 +22,7 @@ export default async function handler(
       amountPaid: { $eq: isPaid ? "$amount" : 0 },
     };
 
-    const sortOptions = {
+    const sortOptions: Sort = {
       dueDate: 1, // 1 for ascending order, -1 for descending order
     };
 

@@ -3,7 +3,8 @@ import { getDepositAccountBalance } from "@/lib/service";
 import { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {
-  name: string;
+  name?: string;
+  error?: string;
 };
 
 export default async function handler(
@@ -17,6 +18,10 @@ export default async function handler(
     const client = await clientPromise;
     const db = client.db("test_db");
     const user = await db.collection("users").findOne({ userId: userId });
+    if (!user) {
+      res.status(400).json({ error: "User not found" });
+      return;
+    }
 
     try {
       let response = await getDepositAccountBalance({
@@ -27,7 +32,8 @@ export default async function handler(
       });
       res.status(200).json(response);
     } catch (err) {
-      res.status(400).json({ error: err.message });
+      const e = err as Error;
+      res.status(400).json({ error: e.message });
     }
   }
 }
