@@ -53,7 +53,7 @@ const Sidebar = () => {
         />
         <div>
           <h1 className="w-full p-2 text-center text-xl font-bold text-primary">
-            {open ? "TBuy" : "TB"}
+            {open ? "T-Buy" : "T-B"}
           </h1>
           <ul className="flex flex-col gap-y-2 pt-3">
             {sidebarLinks.map((link, index) => (
