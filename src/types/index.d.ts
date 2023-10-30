@@ -1,3 +1,4 @@
+import { formatNumber } from "./../utils/functions";
 import { typeAppProps } from "next/app";
 import { ObjectId } from "mongodb";
 
@@ -42,11 +43,13 @@ declare type Order = {
   userId: string;
 };
 
-declare type Payment = {
+declare type Installment = {
   id?: ObjectId;
+  userId: string;
+  orderId: ObjectId;
+  installment: number;
+  dueDate: Date;
+  paidDate: Date | null;
   amount: number;
   amountPaid: number;
-  dueDate: Date;
-  orderId: ObjectId;
-  userId: string;
 };

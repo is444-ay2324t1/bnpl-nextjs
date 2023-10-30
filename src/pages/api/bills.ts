@@ -14,7 +14,7 @@ export default async function handler(
 
     const client = await clientPromise;
     const db = client.db("test_db");
-    const collection = db.collection("payments");
+    const collection = db.collection("installments");
 
     const isPaid = paid === "true";
     const query = {

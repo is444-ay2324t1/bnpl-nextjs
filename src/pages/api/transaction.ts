@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import type { NewTransaction, Order, Payment } from "@/types";
+import type { NewTransaction, Order, Installment } from "@/types";
 import { billPayment } from "@/lib/service";
 import clientPromise from "@/lib/db";
 
@@ -63,18 +63,24 @@ export default async function handler(
         accountTo: "11157",
         transactionAmount: installmentAmounts[0],
         transactionReferenceNumber: newOrderId.toString(),
-        narrative: `Payment for installment 1 of ${numberOfInstallments} for ${merchant} - ${category} ${transactionAmount}`,
+        narrative: `Payment for installment 1 of ${numberOfInstallments} for ${merchant} - ${category}`,
       });
 
+      // TODO: Either we: (1) trf the merchant the (full amount - commission) upon new transaction OR (2) we trf the merchant the commission upon each installment.
+      // I think (1) makes more sense business wise, cuz BNPL is our service, doesnt make sense for the merchant to take up the risk of customer default? Easier to implement also.
+      // Need to do the transferring to merchant account.
+
       for (let i = 0; i < numberOfInstallments; i++) {
-        const newPayment: Payment = {
+        const newinstallment: Installment = {
+          userId: userId,
+          orderId: newOrderId,
+          installment: i + 1,
+          dueDate: addMonths(new Date(), i),
+          paidDate: i == 0 ? new Date() : null,
           amount: installmentAmounts[i],
           amountPaid: i == 0 ? installmentAmounts[i] : 0,
-          dueDate: addMonths(new Date(), i),
-          orderId: newOrderId,
-          userId: userId,
         };
-        await db.collection("payments").insertOne(newPayment);
+        await db.collection("installments").insertOne(newinstallment);
       }
       res.status(200).json(response);
     } catch (err) {
