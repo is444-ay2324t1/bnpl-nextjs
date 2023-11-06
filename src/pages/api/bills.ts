@@ -14,13 +14,16 @@ export default async function handler(
 
     const client = await clientPromise;
     const db = client.db("test_db");
-    const collection = db.collection("payments");
+    const collection = db.collection("installments");
 
-    const isPaid = paid === "true";
-    const query = {
-      userId: userId,
-      amountPaid: { $eq: isPaid ? "$amount" : 0 },
+    const query: { userId: string; paidDate?: any } = {
+      userId: userId as string,
     };
+
+    if (paid !== undefined && paid !== "") {
+      const isPaid = paid === "true";
+      query.paidDate = isPaid ? { $ne: null } : null;
+    }
 
     const sortOptions: Sort = {
       dueDate: 1, // 1 for ascending order, -1 for descending order
