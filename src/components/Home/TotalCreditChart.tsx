@@ -14,7 +14,7 @@ const TotalCreditData = [
   { status: "Order 3", credit: 200 },
 ];
 
-const COLORS = ["#6477AF", "#749AC7", "#85B5D0", "#97CDD8"];
+const COLORS = ["#14532d", "#166534", "#16a34a", "#22c55e", "#86efac"];
 
 export const TotalCreditChart = () => {
   // TODO: when selectedPreiod changes, fetch new data and memoize it
