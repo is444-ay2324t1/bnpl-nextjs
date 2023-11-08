@@ -8,21 +8,71 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ToastAction } from "@/components/ui/Toaster/Toast";
+import { toast } from "@/components/ui/Toaster/use-toast";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useRouter } from "next/router";
+import { longDateTime } from "@/utils/functions";
 
 type BNPLCardProps = {
   totalUsd: number;
+  merchantId: string;
+  merchantName: string;
 };
 
-export function BNPLCard({ totalUsd }: BNPLCardProps) {
+export function BNPLCard({
+  merchantId,
+  totalUsd,
+  merchantName,
+}: BNPLCardProps) {
   const [planDuration, setPlanDuration] = useState(3);
   const threeMonthPayment = (totalUsd / 3).toFixed(2);
   const sixMonthPayment = (totalUsd / 6).toFixed(2);
   const twelveMonthPayment = (totalUsd / 12).toFixed(2);
   const router = useRouter();
+
+  const handlePayment = async () => {
+    const requestBody = {
+      userId: "zihang23",
+      numberOfInstallments: planDuration,
+      transactionAmount: totalUsd,
+      merchant: merchantName,
+      merchantAccountNumber: merchantId,
+    };
+    try {
+      console.log(JSON.stringify(requestBody));
+      const response = await fetch("/api/transaction", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        console.log("HELP");
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      toast({
+        title: "Order placed!",
+        description: longDateTime.format(new Date()),
+        action: <ToastAction altText="Dismiss">Dismiss</ToastAction>,
+      });
+      console.log(data);
+      router.push("/");
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error placing order!",
+        description: longDateTime.format(new Date()),
+        action: <ToastAction altText="Dismiss">Dismiss</ToastAction>,
+      });
+      console.error("There was a problem making the order:", error);
+    }
+  };
 
   return (
     <Card>
@@ -120,7 +170,7 @@ export function BNPLCard({ totalUsd }: BNPLCardProps) {
         </RadioGroup>
       </CardContent>
       <CardFooter>
-        <Button className="w-full" onClick={() => router.push("/")}>
+        <Button className="w-full" onClick={handlePayment}>
           Continue
         </Button>
       </CardFooter>
