@@ -39,11 +39,13 @@ export default function Home() {
       let availableFunds = 2000;
       for (const order in res.orders) {
         const orderData = res.orders[order];
+
+        console.log("hehehxxxx",orderData)
         chart.push({
           status: orderData.merchant,
-          credit: orderData.amount,
+          credit: orderData.amountDue,
         });
-        availableFunds -= orderData.amount;
+        availableFunds -= orderData.amountDue;
       }
       chart.push({
         status: "Available",
