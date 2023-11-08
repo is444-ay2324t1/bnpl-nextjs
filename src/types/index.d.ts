@@ -22,7 +22,6 @@ declare type NewTransaction = {
   userId: string;
   numberOfInstallments: number;
   transactionAmount: number;
-  category: string;
   merchant: string;
   merchantAccountNumber: string;
 };

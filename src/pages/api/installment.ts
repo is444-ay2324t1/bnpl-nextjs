@@ -33,12 +33,20 @@ export default async function handler(
         accountTo: "11157",
         transactionAmount: installment?.amount - installment?.amountPaid,
         transactionReferenceNumber: installment?.orderId.toString(),
-        narrative: `Payment for installment ${installment?.installment} of ${numberOfInstallments} for ${order?.merchant} - ${order?.category}`,
+        narrative: `Payment for installment ${installment?.installment} of ${numberOfInstallments} for ${order?.merchant}`,
       });
       db.collection("installments").updateOne(
         { _id: new ObjectId(installmentId) },
         { $set: { paidDate: new Date(), amountPaid: installment?.amount } }
       );
+
+      // set order status to paid if all installments are paid
+      if (installment?.installment == numberOfInstallments) {
+        db.collection("orders").updateOne(
+          { _id: installment?.orderId },
+          { $set: { status: "paid" } }
+        );
+      }
 
       res.status(200).json(response);
     } catch (err) {
