@@ -56,6 +56,9 @@ export default async function handler(
     }
     for (let installment of outstandingInstallments) {
       const orderId = installment.orderId.toString();
+      if (orders[orderId] === undefined) {
+        continue;
+      }
       orders[orderId].installments.push(installment);
       let amountDue = installment.amount - installment.amountPaid;
       orders[orderId].amountDue += amountDue;
