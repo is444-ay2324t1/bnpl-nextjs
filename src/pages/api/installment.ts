@@ -1,6 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-
-import type { Installment } from "@/types";
 import { billPayment } from "@/lib/service";
 import clientPromise from "@/lib/db";
 import { ObjectId } from "mongodb";
