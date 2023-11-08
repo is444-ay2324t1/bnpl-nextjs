@@ -21,8 +21,8 @@ export const sidebarLinks: SidebarItemType[] = [
     icon: <Gauge />,
   },
   {
-    title: "Pay",
-    href: "/pay",
+    title: "Add Order",
+    href: "/add-order",
     icon: <CircleDollarSign />,
   },
 ];
