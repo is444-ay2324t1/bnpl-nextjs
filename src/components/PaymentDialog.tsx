@@ -14,16 +14,19 @@ import { Gift, X } from "lucide-react";
 
 const paymentHistory = [
   {
-    amount: "$150",
+    amount: "$300",
     dueDate: "24 September 2023",
+    paid: true,
   },
   {
-    amount: "$150",
-    dueDate: "24 October",
+    amount: "$300",
+    dueDate: "24 October 2023",
+    paid: true,
   },
   {
-    amount: "$150",
+    amount: "$300",
     dueDate: "24 November 2023",
+    paid: false,
   },
 ];
 
@@ -69,22 +72,40 @@ export function PaymentDialog({
                   key={index}
                   className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:pb-0"
                 >
-                  <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                  <div className="space-y-1">
-                    <p className="text-xl font-semibold leading-none">
-                      {paymentHistory.amount}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {paymentHistory.dueDate}
-                    </p>
-                  </div>
+                  {paymentHistory.paid == true ? (
+                    <>
+                      <span className="flex mt-2 h-4 w-4 translate-y-1 rounded-full bg-green-500" />
+                      <div className="space-y-1 ml-2">
+                        <p className="text-xl font-semibold leading-none">
+                          {paymentHistory.amount}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {paymentHistory.dueDate}
+                        </p>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <span className="flex mt-2 h-4 w-4 translate-y-1 rounded-full bg-orange-500" />
+                      <div className="space-y-1 ml-2">
+                        <p className="text-xl font-semibold leading-none">
+                          {paymentHistory.amount}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {paymentHistory.dueDate}
+                        </p>
+                      </div>
+                    </>
+                  )}
                 </div>
               ))}
             </div>
           </div>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogAction className="w-full">Pay Now</AlertDialogAction>
+          <AlertDialogAction className="w-full">
+            Pay ${amount} Now
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
