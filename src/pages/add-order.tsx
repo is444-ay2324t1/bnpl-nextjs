@@ -16,7 +16,7 @@ export default function AddOrderPage() {
 
   const qrConfig = {
     fps: 10,
-    qrbox: 600,
+    qrbox: 1200,
     aspectRatio: 1.0,
     disableFlip: false,
   };
@@ -45,9 +45,8 @@ export default function AddOrderPage() {
   return (
     <Layout>
       <main
-        className={`flex min-h-screen flex-col items-center justify-between p-10 text-5xl text-blue`}
+        className={`flex h-full flex-col items-center justify-between p-10 text-5xl text-blue`}
       >
-        {/* <Button>Scan Merchant QR</Button> */}
         {isScanSuccess ? (
           <div className="flex flex-col w-3/4 text-center">
             <h2 className="font-semibold text-3xl my-2">Checkout</h2>
@@ -73,9 +72,9 @@ export default function AddOrderPage() {
             <BNPLCard totalUsd={totalUsd} />
           </div>
         ) : (
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center grow w-full">
             <Html5QrcodePlugin
-              className="text-base"
+              className="text-2xl min-w-[48rem] min-h-[48rem] "
               qrCodeSuccessCallback={onScanSuccess}
               qrCodeErrorCallback={onScanFailure}
               {...qrConfig}
