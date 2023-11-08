@@ -27,13 +27,12 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method == "POST") {
-    // Assuming customer acc already has enuf balance for the first txn
     const {
       userId,
       numberOfInstallments,
       transactionAmount,
-      category,
       merchant,
+      merchantAccountNumber,
     }: NewTransaction = req.body;
     const client = await clientPromise;
     const db = client.db("test_db");
@@ -45,7 +44,6 @@ export default async function handler(
     );
 
     const order: Order = {
-      category: category,
       merchant: merchant,
       status: "in progress",
       userId: userId,
@@ -63,12 +61,8 @@ export default async function handler(
         accountTo: "11157",
         transactionAmount: installmentAmounts[0],
         transactionReferenceNumber: newOrderId.toString(),
-        narrative: `Payment for installment 1 of ${numberOfInstallments} for ${merchant} - ${category}`,
+        narrative: `Payment for installment 1 of ${numberOfInstallments} for ${merchant}`,
       });
-
-      // TODO: Either we: (1) trf the merchant the (full amount - commission) upon new transaction OR (2) we trf the merchant the commission upon each installment.
-      // I think (1) makes more sense business wise, cuz BNPL is our service, doesnt make sense for the merchant to take up the risk of customer default? Easier to implement also.
-      // Need to do the transferring to merchant account.
 
       for (let i = 0; i < numberOfInstallments; i++) {
         const newinstallment: Installment = {
@@ -82,6 +76,19 @@ export default async function handler(
         };
         await db.collection("installments").insertOne(newinstallment);
       }
+
+      // Payment to merchant - full txn amount
+      await billPayment({
+        userID: "dbeagroup1",
+        PIN: "288792",
+        OTP: "999999",
+        accountFrom: "11157",
+        accountTo: merchantAccountNumber,
+        transactionAmount: transactionAmount,
+        transactionReferenceNumber: newOrderId.toString(),
+        narrative: `Payment for order ${newOrderId.toString()}`,
+      });
+
       res.status(200).json(response);
     } catch (err) {
       const e = err as Error;

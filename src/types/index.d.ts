@@ -24,6 +24,7 @@ declare type NewTransaction = {
   transactionAmount: number;
   category: string;
   merchant: string;
+  merchantAccountNumber: string;
 };
 
 declare type User = {
@@ -37,7 +38,6 @@ declare type User = {
 
 declare type Order = {
   id?: ObjectId;
-  category: string;
   merchant: string;
   status: string; // possible values: "in progress","paid"
   userId: string;
