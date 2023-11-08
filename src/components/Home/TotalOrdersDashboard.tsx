@@ -16,20 +16,29 @@ const DueAmount: React.FC<DueProps> = ({ amount, days }) => {
   );
 };
 
-function addLeadingZero(number) {
+function addLeadingZero(number: number) {
   if (number < 10) {
     return "0" + number;
   }
 }
 
-const OrderDashboard: React.FC = ({
+export type OrderDashboardProps = {
+  loading: boolean;
+  activeOrders: number;
+  completedOrders: number;
+  dueIn15: number;
+  dueIn30: number;
+  totalDue: number;
+};
+
+const OrderDashboard = ({
   loading,
   activeOrders,
   completedOrders,
   dueIn15,
   dueIn30,
   totalDue,
-}) => {
+}: OrderDashboardProps) => {
   return (
     <Card className="w-full">
       <div className="px-6 mt-4">

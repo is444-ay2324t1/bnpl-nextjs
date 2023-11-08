@@ -47,8 +47,8 @@ declare type Installment = {
   userId: string;
   orderId: ObjectId;
   installment: number;
-  dueDate: string;
-  paidDate: string | null;
+  dueDate: date;
+  paidDate: date | null;
   amount: number;
   amountPaid: number;
 };

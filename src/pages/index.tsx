@@ -11,7 +11,7 @@ export default function Home() {
   const [billsDueOtherMonths, setBillsDueOtherMonths] = useState<Installment[]>(
     []
   );
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState<any>({});
   const [refreshCount, setRefreshCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const handleRefresh = () => {
@@ -40,7 +40,7 @@ export default function Home() {
       for (const order in res.orders) {
         const orderData = res.orders[order];
 
-        console.log("hehehxxxx",orderData)
+        console.log("hehehxxxx", orderData);
         chart.push({
           status: orderData.merchant,
           credit: orderData.amountDue,
@@ -52,7 +52,7 @@ export default function Home() {
         credit: availableFunds,
       });
 
-      console.log("hehh", chart)
+      console.log("hehh", chart);
       setChartData(chart);
 
       const currentDate = new Date();
@@ -82,7 +82,7 @@ export default function Home() {
     <Layout>
       <main className="min-h-screen">
         <div className="flex flex-col gap-4 px-4 lg:flex-row">
-          <OrderDashboard {...userData} loading={loading} />
+          <OrderDashboard loading={loading} {...userData} />
           <TotalCreditChart chartData={chartData} />
         </div>
         <Card className="mt-4 mx-4">

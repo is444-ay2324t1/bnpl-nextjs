@@ -43,7 +43,7 @@ export default async function handler(
     const outstandingOrders = await orderCollection
       .find({ userId: userId as string, status: "in progress" })
       .toArray();
-    let orders = {};
+    let orders: any = {};
     let dueIn15 = 0;
     let dueIn30 = 0;
     let totalDue = 0;

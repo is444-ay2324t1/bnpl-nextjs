@@ -1,8 +1,17 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { formatUsd } from "@/utils/functions";
+import { type } from "os";
 
-export const DashboardHeader = ({ loading, totalDue }) => {
+export type DashboardHeaderProps = {
+  loading: boolean;
+  totalDue: number;
+};
+
+export const DashboardHeader = ({
+  loading,
+  totalDue,
+}: DashboardHeaderProps) => {
   const [showBalance, setShowBalance] = useState(true);
 
   const [userCreditData, setuserCreditData] = useState({

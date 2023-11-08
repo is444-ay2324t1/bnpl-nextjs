@@ -11,10 +11,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Installment } from "@/types";
 import { Separator } from "@radix-ui/react-separator";
-import { Gift, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useToast } from "./ui/Toaster/use-toast";
-import { ToastAction } from "./ui/Toaster/Toast";
+
 type PaymentDialogProps = {
   amount: number;
   userId: string;
@@ -45,7 +45,9 @@ export function PaymentDialog({
       // Replace the following line with your actual fetch request
       const response = await fetch(`/api/order?orderId=${orderId}`);
       const data = await response.json();
-      const sortedData = data.sort((a, b) => a.installment - b.installment);
+      const sortedData = data.sort(
+        (a: any, b: any) => a.installment - b.installment
+      );
 
       setInstallmentDetails(sortedData);
     } catch (error) {
@@ -129,7 +131,8 @@ export function PaymentDialog({
                 return (
                   <div
                     key={index}
-                    className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:pb-0">
+                    className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:pb-0"
+                  >
                     {installment.paidDate !== null ? (
                       <>
                         <span className="flex mt-2 h-4 w-4 translate-y-1 rounded-full bg-green-500" />
@@ -164,7 +167,8 @@ export function PaymentDialog({
         <AlertDialogFooter>
           <AlertDialogAction
             className="w-full"
-            onClick={() => handlePayment(userId, installmentId!)}>
+            onClick={() => handlePayment(userId, installmentId!)}
+          >
             Pay ${amount} Now
           </AlertDialogAction>
         </AlertDialogFooter>

@@ -7,7 +7,6 @@ import {
 import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { BNPLCard } from "@/components/bnpl-card";
-import { Button } from "@/components/ui/button";
 
 export default function AddOrderPage() {
   const [isScanSuccess, setIsScanSuccess] = useState(false);
