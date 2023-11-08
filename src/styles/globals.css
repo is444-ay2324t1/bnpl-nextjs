@@ -68,7 +68,8 @@ body {
   flex-grow: 1;
 }
 
-#html5-qrcode-button-camera-start {
+#html5-qrcode-button-camera-start,
+#html5-qrcode-button-camera-permission {
   background-color: hsl(var(--primary));
   color: hsl(var(--primary-foreground));
   padding-top: 1rem;
