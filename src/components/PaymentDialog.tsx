@@ -49,10 +49,10 @@ export function PaymentDialog({
       <AlertDialogContent>
         <AlertDialogHeader>
           <div className="flex justify-between items-center">
-            <AlertDialogTitle className="text-xl">
+            <AlertDialogTitle className="text-xl text-primary">
               Payment Details
             </AlertDialogTitle>
-            <AlertDialogCancel className="bg-destructive text-white hover:bg-destructive/80 hover:text-white">
+            <AlertDialogCancel className="bg-white text-primary hover:bg-destructive hover:text-white">
               <X />
             </AlertDialogCancel>
           </div>
