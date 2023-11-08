@@ -17,7 +17,7 @@ const TotalCreditData = [
 
 const COLORS = ["#14532d", "#166534", "#16a34a", "#22c55e", "#86efac"];
 
-export const TotalCreditChart = ({ chartData }) => {
+export const TotalCreditChart = ({ chartData }: any) => {
   // TODO: when selectedPreiod changes, fetch new data and memoize it
 
   console.log("ddd", chartData);
