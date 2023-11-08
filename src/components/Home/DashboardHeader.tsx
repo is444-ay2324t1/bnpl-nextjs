@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { formatUsd } from "@/utils/functions";
 
-export const DashboardHeader = () => {
+export const DashboardHeader = ({ loading, totalDue }) => {
   const [showBalance, setShowBalance] = useState(true);
 
   const [userCreditData, setuserCreditData] = useState({
@@ -30,7 +30,7 @@ export const DashboardHeader = () => {
         <div className="flex items-center justify-between">
           {showBalance ? (
             <p className="text-2xl font-bold tracking-wider text-black sm:text-3xl">
-              {formatUsd(userCreditData.availableCredit)}
+              {loading ? "-" : formatUsd(2000 - totalDue)}
             </p>
           ) : (
             <p className="text-2xl font-bold text-black sm:text-3xl">

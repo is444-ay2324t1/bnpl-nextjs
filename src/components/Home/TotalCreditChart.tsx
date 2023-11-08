@@ -7,6 +7,7 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+
 const TotalCreditData = [
   { status: "Available", credit: 400 },
   { status: "Order 1", credit: 300 },
@@ -16,8 +17,10 @@ const TotalCreditData = [
 
 const COLORS = ["#14532d", "#166534", "#16a34a", "#22c55e", "#86efac"];
 
-export const TotalCreditChart = () => {
+export const TotalCreditChart = ({ chartData }) => {
   // TODO: when selectedPreiod changes, fetch new data and memoize it
+
+  console.log("ddd", chartData);
   return (
     <div className="w-full space-y-2 rounded-xl border lg:w-1/2">
       <div className="flex flex-col items-center justify-center font-bold"></div>
@@ -25,7 +28,7 @@ export const TotalCreditChart = () => {
         <PieChart className="">
           <Pie
             nameKey="status"
-            data={TotalCreditData}
+            data={chartData}
             cx="50%"
             cy="50%"
             innerRadius={60}

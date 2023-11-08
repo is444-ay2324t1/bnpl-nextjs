@@ -16,11 +16,24 @@ const DueAmount: React.FC<DueProps> = ({ amount, days }) => {
   );
 };
 
-const OrderDashboard: React.FC = () => {
+function addLeadingZero(number) {
+  if (number < 10) {
+    return "0" + number;
+  }
+}
+
+const OrderDashboard: React.FC = ({
+  loading,
+  activeOrders,
+  completedOrders,
+  dueIn15,
+  dueIn30,
+  totalDue,
+}) => {
   return (
     <Card className="w-full">
       <div className="px-6 mt-4">
-        <DashboardHeader />
+        <DashboardHeader totalDue={totalDue} loading={loading} />
       </div>
       <CardContent className="mt-4">
         <div className="border rounded-xl p-4">
@@ -29,13 +42,13 @@ const OrderDashboard: React.FC = () => {
             <div className="text-base flex flex-row">
               <div className="w-1/2 flex flex-col items-center justify-center">
                 <div className="inline-flex items-center rounded-full border font-semibold text-2xl bg-primary text-white px-4 py-4">
-                  20
+                  {loading ? "-" : addLeadingZero(activeOrders)}
                 </div>
                 <div className="font-medium p-4">Active</div>
               </div>
               <div className="w-1/2 flex flex-col items-center justify-center">
                 <div className="inline-flex items-center rounded-full border font-semibold text-2xl bg-primary text-white px-4 py-4">
-                  50
+                  {loading ? "-" : addLeadingZero(completedOrders)}
                 </div>
                 <div className="font-medium p-4">Finished</div>
               </div>
@@ -44,8 +57,8 @@ const OrderDashboard: React.FC = () => {
         </div>
       </CardContent>
       <CardFooter className="gap-x-2">
-        <DueAmount amount={300} days={15} />
-        <DueAmount amount={500} days={30} />
+        <DueAmount amount={loading ? 0 : dueIn15} days={15} />
+        <DueAmount amount={loading ? 0 : dueIn30} days={30} />
       </CardFooter>
     </Card>
   );
