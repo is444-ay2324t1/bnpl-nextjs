@@ -14,6 +14,7 @@ export default function AddOrderPage() {
   const [scannedData, setScannedData] = useState("");
   const [totalUsd, setTotalUsd] = useState(0);
   const [merchantId, setMerchantId] = useState("");
+  const [merchantName, setMerchantName] = useState("");
 
   const qrConfig = {
     fps: 10,
@@ -35,6 +36,7 @@ export default function AddOrderPage() {
     const data = JSON.parse(decodedText);
     setTotalUsd(data.total_usd);
     setMerchantId(data.merchant_id);
+    setMerchantName(data.merchant);
   };
 
   const onScanFailure = (error: Html5QrcodeError) => {
@@ -70,7 +72,11 @@ export default function AddOrderPage() {
                 <div className="flex justify-end w-1/2 ">${totalUsd}</div>
               </div>
             </div>
-            <BNPLCard totalUsd={totalUsd} />
+            <BNPLCard
+              merchantId={merchantId}
+              merchantName={merchantName}
+              totalUsd={totalUsd}
+            />
           </div>
         ) : (
           <div className="flex justify-center items-center grow w-full">
