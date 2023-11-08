@@ -7,6 +7,7 @@ import {
 import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { BNPLCard } from "@/components/bnpl-card";
+import { Button } from "@/components/ui/button";
 
 export default function AddOrderPage() {
   const [isScanSuccess, setIsScanSuccess] = useState(false);
@@ -73,8 +74,9 @@ export default function AddOrderPage() {
           </div>
         ) : (
           <div className="flex justify-center items-center grow w-full">
+            {/* <Button>test</Button> */}
             <Html5QrcodePlugin
-              className="text-2xl min-w-[48rem] min-h-[48rem] "
+              className="text-2xl min-w-[48rem] min-h-[48rem] flex flex-col"
               qrCodeSuccessCallback={onScanSuccess}
               qrCodeErrorCallback={onScanFailure}
               {...qrConfig}
